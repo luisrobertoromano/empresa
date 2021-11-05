@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h1>Alta de empleado</h1>
+    </div>
+    <div class="row">
+       
+<form method="POST" enctype="multipart/form-data">{% csrf_token %} {{ form.as_p }}
+    <button type="submit">Alta</button>
+
+
+</form>
+
+    </div>
+</div>
+
+
+
+    
+{% endblock content %}
+    
+
+
+

@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container">
+    <div class="row justify-content-end mt-2">
+        <form class="form-inline" method="GET"> {% csrf_token %}          
+            <input type="text" class="form-control mr-sm-2" placeholder="Inserte texto" id="kword" name="kword">
+            <button type="submit" class="btn btn-primary mr-sm-2">Buscar</button>
+            <a class="btn btn-info" href=" {% url 'registro_app:alta' %}">(+)Agregar</a>
+        </form>
+    </div>
+    <div class="row">
+        <h1>Lista de empleados</h1>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Area</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+                {% for empleado in lista %}
+                <tr>
+                    <td>{{empleado.last_name}}</td>
+                    <td>{{empleado.first_name}}</td>
+                    <td>{{empleado.departamento}}</td>
+                    <td>
+                        <a class="btn btn-info" href=" {% url 'registro_app:detalle' empleado.id %}">Ver</a>
+                        <a class="btn btn-info" href=" {% url 'registro_app:update' empleado.id %}">Modificar</a>
+                        <a class="btn btn-info" href=" {% url 'registro_app:delete' empleado.id %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+        
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        {% if is_paginated %}
+<ul class="pagination">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Anterior</a></li>
+    {% endif %} {% for pagina in paginator.page_range %} {% ifequal pagina page_obj.number %}
+    <li class="page-item active"><a class="page-link" href="#">{{pagina}}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{pagina}}">{{pagina}}</a></li>
+    {% endifequal %} {% endfor %} {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Siguiente</a></li>
+    {% endif %}
+</ul>
+
+{% endif %}
+
+    </div>
+</div>
+
+
+
+
+ {% endblock content %}
